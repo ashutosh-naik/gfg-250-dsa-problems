@@ -4,9 +4,15 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon } from "lucide-react";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <header className="flex items-center justify-between p-4 border-b">
@@ -20,7 +26,9 @@ export function Header() {
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         className="cursor-pointer"
       >
-        {theme === "dark" ? (
+        {!mounted ? (
+          <div className="h-5 w-5" />
+        ) : theme === "dark" ? (
           <Sun className="h-5 w-5" />
         ) : (
           <Moon className="h-5 w-5" />

@@ -4,6 +4,7 @@ import { Problem } from "@/data/problems";
 import { useProgress } from "@/contexts/ProgressContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BookOpen } from "lucide-react";
 
 interface ProblemRowProps {
   problem: Problem;
@@ -30,7 +31,29 @@ export function ProblemRow({ problem }: ProblemRowProps) {
     <div className="flex items-center justify-between p-4 border-b last:border-b-0 hover:bg-muted/50 transition-colors">
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <h3 className="font-medium truncate">{problem.title}</h3>
+          {problem.link ? (
+            <a
+              href={problem.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium truncate hover:underline cursor-pointer"
+            >
+              {problem.title}
+            </a>
+          ) : (
+            <h3 className="font-medium truncate">{problem.title}</h3>
+          )}
+          {problem.article && (
+            <a
+              href={problem.article}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground cursor-pointer"
+              title="Read article"
+            >
+              <BookOpen className="h-4 w-4" />
+            </a>
+          )}
         </div>
         <div className="flex items-center gap-2 text-sm">
           <Badge variant="outline" className="text-xs">
