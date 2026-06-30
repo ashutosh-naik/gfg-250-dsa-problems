@@ -39,13 +39,13 @@ export function FilterSidebar({
     selectedPatterns.length + selectedDifficulties.length + selectedStatus.length;
 
   return (
-    <div className={`w-64 shrink-0 border-r bg-card h-full overflow-y-auto ${className}`}>
-      <div className="p-4 space-y-5">
+    <div className={`w-64 sm:w-72 shrink-0 border-r bg-card h-full overflow-y-auto overscroll-contain ${className}`}>
+      <div className="p-3 sm:p-4 space-y-4 sm:space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-            <h2 className="font-semibold">Filters</h2>
+            <SlidersHorizontal className="h-4 w-4 text-muted-foreground shrink-0" />
+            <h2 className="font-semibold text-sm sm:text-base">Filters</h2>
             {activeFilterCount > 0 && (
               <span className="inline-flex items-center justify-center h-5 min-w-5 rounded-full bg-primary text-primary-foreground text-[10px] font-medium px-1.5">
                 {activeFilterCount}
@@ -53,8 +53,14 @@ export function FilterSidebar({
             )}
           </div>
           {activeFilterCount > 0 && (
-            <Button variant="ghost" size="icon" onClick={onClearAll} className="h-7 w-7 cursor-pointer" title="Clear all filters">
-              <X className="h-3.5 w-3.5" />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClearAll}
+              className="h-8 w-8 cursor-pointer"
+              title="Clear all filters"
+            >
+              <X className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -80,7 +86,7 @@ export function FilterSidebar({
         {/* Difficulty Filter */}
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Difficulty</h3>
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             {difficulties.map((difficulty) => {
               const colorDot =
                 difficulty === "Easy"
@@ -92,7 +98,7 @@ export function FilterSidebar({
                 <label
                   key={difficulty}
                   htmlFor={`difficulty-${difficulty}`}
-                  className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-accent/50 cursor-pointer transition-colors"
+                  className="flex items-center gap-2.5 rounded-md px-2 py-2 sm:py-1.5 hover:bg-accent/50 cursor-pointer transition-colors min-h-[36px] sm:min-h-0"
                 >
                   <Checkbox
                     id={`difficulty-${difficulty}`}
@@ -101,7 +107,7 @@ export function FilterSidebar({
                       onDifficultyChange(difficulty, checked === true)
                     }
                   />
-                  <span className={`h-2 w-2 rounded-full ${colorDot}`} />
+                  <span className={`h-2 w-2 rounded-full shrink-0 ${colorDot}`} />
                   <span className="text-sm flex-1">{difficulty}</span>
                 </label>
               );
@@ -114,12 +120,12 @@ export function FilterSidebar({
         {/* Status Filter */}
         <div className="space-y-2">
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</h3>
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             {statuses.map((status) => (
               <label
                 key={status}
                 htmlFor={`status-${status}`}
-                className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-accent/50 cursor-pointer transition-colors"
+                className="flex items-center gap-2.5 rounded-md px-2 py-2 sm:py-1.5 hover:bg-accent/50 cursor-pointer transition-colors min-h-[36px] sm:min-h-0"
               >
                 <Checkbox
                   id={`status-${status}`}
@@ -141,12 +147,12 @@ export function FilterSidebar({
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Topics / Patterns
           </h3>
-          <div className="space-y-0.5 max-h-[320px] overflow-y-auto pr-1">
+          <div className="space-y-0.5 max-h-[200px] sm:max-h-[280px] lg:max-h-[320px] overflow-y-auto overscroll-contain pr-1">
             {PATTERNS.map((pattern) => (
               <label
                 key={pattern.slug}
                 htmlFor={`pattern-${pattern.slug}`}
-                className="flex items-center gap-2.5 rounded-md px-2 py-1.5 hover:bg-accent/50 cursor-pointer transition-colors"
+                className="flex items-center gap-2.5 rounded-md px-2 py-2 sm:py-1.5 hover:bg-accent/50 cursor-pointer transition-colors min-h-[36px] sm:min-h-0"
               >
                 <Checkbox
                   id={`pattern-${pattern.slug}`}
@@ -156,7 +162,7 @@ export function FilterSidebar({
                   }
                 />
                 <span className="text-sm flex-1 truncate">{pattern.name}</span>
-                <span className="text-xs text-muted-foreground tabular-nums">{pattern.total}</span>
+                <span className="text-xs text-muted-foreground tabular-nums shrink-0">{pattern.total}</span>
               </label>
             ))}
           </div>

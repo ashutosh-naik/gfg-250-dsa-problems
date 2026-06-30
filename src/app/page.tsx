@@ -127,6 +127,7 @@ function HomeContent() {
     <div className="flex flex-col min-h-screen bg-background font-sans">
       <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex flex-1 relative">
+        {/* Desktop sidebar */}
         <FilterSidebar
           selectedPatterns={selectedPatterns}
           selectedDifficulties={selectedDifficulties}
@@ -140,13 +141,16 @@ function HomeContent() {
           className="hidden lg:block"
         />
 
+        {/* Mobile sidebar overlay */}
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-40 bg-black/50 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           >
             <div
-              className="absolute left-0 top-0 bottom-0 w-72 bg-background shadow-xl"
+              className={`absolute left-0 top-0 bottom-0 bg-background shadow-xl transition-all ${
+                sidebarOpen ? "w-[85vw] max-w-sm" : "w-0"
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
               <FilterSidebar
@@ -159,18 +163,27 @@ function HomeContent() {
                 onClearAll={handleClearAll}
                 sortBy={sortBy}
                 onSortChange={setSortBy}
+                className="!w-full !border-r-0"
               />
             </div>
           </div>
         )}
 
+        {/* Main content */}
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="p-4 lg:p-6 space-y-4">
+          <div className="p-3 sm:p-4 lg:p-6 space-y-3 sm:space-y-4 max-w-full">
             <StatsBar />
             <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Showing <span className="font-medium text-foreground">{filteredProblems.length}</span> of{" "}
-                <span className="font-medium text-foreground">{PROBLEMS.length}</span> problems
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                Showing{" "}
+                <span className="font-medium text-foreground">
+                  {filteredProblems.length}
+                </span>{" "}
+                <span className="hidden xs:inline">of </span>
+                <span className="font-medium text-foreground">
+                  {PROBLEMS.length}
+                </span>{" "}
+                <span className="hidden xs:inline">problems</span>
               </p>
             </div>
             <ProblemList problems={filteredProblems} />
@@ -187,8 +200,8 @@ export default function Home() {
       fallback={
         <div className="flex flex-col min-h-screen bg-background font-sans">
           <Header />
-          <div className="flex-1 flex items-center justify-center">
-            <p className="text-muted-foreground">Loading...</p>
+          <div className="flex-1 flex items-center justify-center p-4">
+            <p className="text-sm text-muted-foreground">Loading...</p>
           </div>
         </div>
       }
