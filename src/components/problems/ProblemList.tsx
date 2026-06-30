@@ -2,17 +2,36 @@
 
 import { Problem } from "@/data/problems";
 import { ProblemRow } from "./ProblemRow";
+import { ListChecks } from "lucide-react";
 
 interface ProblemListProps {
   problems: Problem[];
 }
 
 export function ProblemList({ problems }: ProblemListProps) {
+  if (problems.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <ListChecks className="h-12 w-12 text-muted-foreground/30 mb-4" />
+        <h3 className="text-lg font-semibold text-muted-foreground">No problems match your filters</h3>
+        <p className="text-sm text-muted-foreground/60 mt-1">Try adjusting your filter criteria</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="border rounded-lg overflow-hidden max-h-[calc(100vh-200px)] overflow-y-auto">
-      {problems.map((problem) => (
-        <ProblemRow key={problem.id} problem={problem} />
-      ))}
+    <div className="rounded-lg border bg-card overflow-hidden">
+      <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 border-b bg-muted/30 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+        <span className="w-8 text-right">#</span>
+        <span className="w-5" />
+        <span className="flex-1">Problem</span>
+        <span className="w-[66px text-right">Action</span>
+      </div>
+      <div className="max-h-[calc(100vh-280px)] overflow-y-auto">
+        {problems.map((problem, idx) => (
+          <ProblemRow key={problem.id} problem={problem} index={idx + 1} />
+        ))}
+      </div>
     </div>
   );
 }

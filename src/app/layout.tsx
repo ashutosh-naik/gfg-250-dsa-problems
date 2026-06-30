@@ -15,8 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GeeksforGeeks DSA",
-  description: "Track your DSA problem solving progress",
+  title: "GeeksforGeeks DSA - Master Data Structures & Algorithms",
+  description:
+    "Track and master 250+ GeeksforGeeks DSA problems across 20 patterns. Filter by difficulty, topic, and status. Your complete DSA preparation tracker.",
 };
 
 export default function RootLayout({

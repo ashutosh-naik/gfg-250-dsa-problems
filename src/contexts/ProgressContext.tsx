@@ -4,7 +4,8 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
+  useSyncExternalStore,
+  useCallback,
   ReactNode,
 } from "react";
 import { PROBLEMS } from "@/data/problems";
@@ -15,22 +16,41 @@ interface ProgressContextType {
   solvedCount: number;
   totalCount: number;
   percent: number;
-  isMounted: boolean;
+  isHydrated: boolean;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(
   undefined,
 );
 
-export function ProgressProvider({ children }: { children: ReactNode }) {
-  const [solvedIds, setSolvedIds] = useState<Set<number>>(new Set());
-  const [isMounted, setIsMounted] = useState(false);
+function getSnapshot() {
+  return typeof window !== "undefined" ? localStorage.getItem("gfg-tracker-progress") : null;
+}
 
-  useEffect(() => {
+function getServerSnapshot() {
+  return null;
+}
+
+function getInitialSolved(): Set<number> {
+  if (typeof window !== "undefined") {
     const stored = localStorage.getItem("gfg-tracker-progress");
-    setSolvedIds(stored ? new Set(JSON.parse(stored)) : new Set());
-    setIsMounted(true);
-  }, []);
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  }
+  return new Set();
+}
+
+export function ProgressProvider({ children }: { children: ReactNode }) {
+  const [solvedIds, setSolvedIds] = useState<Set<number>>(getInitialSolved);
+  const externalStorage = useSyncExternalStore(
+    useCallback((onChange: () => void) => {
+      window.addEventListener("storage", onChange);
+      return () => window.removeEventListener("storage", onChange);
+    }, []),
+    getSnapshot,
+    getServerSnapshot,
+  );
+
+  const isHydrated = externalStorage !== null || solvedIds.size > 0;
 
   const isSolved = (id: number) => solvedIds.has(id);
 
@@ -59,7 +79,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         solvedCount,
         totalCount,
         percent,
-        isMounted,
+        isHydrated,
       }}
     >
       {children}
