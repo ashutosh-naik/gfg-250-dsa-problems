@@ -4,8 +4,7 @@ import {
   createContext,
   useContext,
   useState,
-  useSyncExternalStore,
-  useCallback,
+  useEffect,
   ReactNode,
 } from "react";
 import { PROBLEMS } from "@/data/problems";
@@ -16,41 +15,22 @@ interface ProgressContextType {
   solvedCount: number;
   totalCount: number;
   percent: number;
-  isHydrated: boolean;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(
   undefined,
 );
 
-function getSnapshot() {
-  return typeof window !== "undefined" ? localStorage.getItem("gfg-tracker-progress") : null;
-}
-
-function getServerSnapshot() {
-  return null;
-}
-
-function getInitialSolved(): Set<number> {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("gfg-tracker-progress");
-    return stored ? new Set(JSON.parse(stored)) : new Set();
-  }
-  return new Set();
-}
-
 export function ProgressProvider({ children }: { children: ReactNode }) {
-  const [solvedIds, setSolvedIds] = useState<Set<number>>(getInitialSolved);
-  const externalStorage = useSyncExternalStore(
-    useCallback((onChange: () => void) => {
-      window.addEventListener("storage", onChange);
-      return () => window.removeEventListener("storage", onChange);
-    }, []),
-    getSnapshot,
-    getServerSnapshot,
-  );
+  const [solvedIds, setSolvedIds] = useState<Set<number>>(new Set());
 
-  const isHydrated = externalStorage !== null || solvedIds.size > 0;
+  useEffect(() => {
+    const stored = localStorage.getItem("gfg-tracker-progress");
+    if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSolvedIds(new Set(JSON.parse(stored)));
+    }
+  }, []);
 
   const isSolved = (id: number) => solvedIds.has(id);
 
@@ -79,7 +59,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
         solvedCount,
         totalCount,
         percent,
-        isHydrated,
       }}
     >
       {children}
