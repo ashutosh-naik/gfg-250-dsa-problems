@@ -1,4 +1,4 @@
-// Auto-generated GFG DSA problem dataset — 252 problems across 20 patterns
+// Auto-generated GFG DSA problem dataset — 250 problems across 20 patterns
 export type Difficulty = "Easy" | "Medium" | "Hard";
 
 export interface Problem {
@@ -90,8 +90,8 @@ export const PATTERNS: PatternMeta[] = [
   {
     name: "Heap / Priority Queue",
     slug: "heap-priority-queue",
-    counts: { Easy: 3, Medium: 4, Hard: 4 },
-    total: 11,
+    counts: { Easy: 3, Medium: 4, Hard: 3 },
+    total: 10,
   },
   {
     name: "Graph DFS",
@@ -114,8 +114,8 @@ export const PATTERNS: PatternMeta[] = [
   {
     name: "Topological Sort",
     slug: "topological-sort",
-    counts: { Easy: 1, Medium: 3, Hard: 1 },
-    total: 5,
+    counts: { Easy: 1, Medium: 2, Hard: 1 },
+    total: 4,
   },
   {
     name: "Backtracking",
@@ -1645,16 +1645,6 @@ export const PROBLEMS: Problem[] = [
     link: "",
   },
   {
-    id: 150,
-    title: "Merge K Sorted Linked Lists",
-    slug: "merge-k-sorted-linked-lists",
-    pattern: "Heap / Priority Queue",
-    patternSlug: "heap-priority-queue",
-    difficulty: "Hard",
-    concepts: ["Min-Heap"],
-    link: "",
-  },
-  {
     id: 151,
     title: "Find Median in a Stream",
     slug: "find-median-in-a-stream",
@@ -1942,16 +1932,6 @@ export const PROBLEMS: Problem[] = [
     patternSlug: "topological-sort",
     difficulty: "Medium",
     concepts: ["BFS", "In-Degree"],
-    link: "",
-  },
-  {
-    id: 180,
-    title: "Course Schedule / Prerequisite Tasks",
-    slug: "course-schedule-prerequisite-tasks",
-    pattern: "Topological Sort",
-    patternSlug: "topological-sort",
-    difficulty: "Medium",
-    concepts: ["Topological Sort", "Cycle Detection"],
     link: "",
   },
   {
